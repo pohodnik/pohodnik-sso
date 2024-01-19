@@ -36,7 +36,8 @@ services:
       DB_USER: keycloak_user
       DB_PASSWORD: keycloak_password
       DB_DATABASE: keycloak_db
-      PROXY_ADDRESS_FORWARDING: true
+      PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_FRONTEND_URL: https://sso.xneek.ru/auth
     depends_on:
       - mysql-kc
     networks:
