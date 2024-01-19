@@ -22,6 +22,6 @@ services:
       POSTGRES_USER: ${KEYCLOAK_DB_USER}
       POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
     volumes:
-      - keycloak_sso_vol:/var/lib/postgresql/data
+      - ~/keycloak_sso_vol:/var/lib/postgresql/data
 volumes: 
   keycloak_sso_vol:
