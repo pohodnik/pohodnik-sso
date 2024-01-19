@@ -36,6 +36,7 @@ services:
       DB_USER: keycloak_user
       DB_PASSWORD: keycloak_password
       DB_DATABASE: keycloak_db
+      PROXY_ADDRESS_FORWARDING: true
     depends_on:
       - mysql-kc
     networks:
