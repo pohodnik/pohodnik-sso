@@ -1,28 +1,29 @@
-version: "3"
-
-services:  
-  keycloak_main:    
-    image: quay.io/keycloak/keycloak:20.0.0        
-    environment:    
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USERNAME}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_HOSTNAME:  sso.xneek.ru
-      # KC_DB: postgres
-      # KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
-      # KC_DB_USERNAME: ${KEYCLOAK_DB_USER}
-      # KC_DB_URL: "jdbc:postgresql://postgres/${KEYCLOAK_DB_NAME}"
+version: "3.9"
+services:
+  postgres:
+    container_name: postgres_keycloack
+    image: "postgres:13.2"
+    volumes:
+      - ./db-data:/var/lib/postgresql/data/
+    env_file:
+      - ./database.dev.env
     ports:
-      - "${KEYCLOAK_PORT}:8080"
-    command:
-        - start-dev 
+      - "5432:5432"
+    networks:
+      - backend
+  keycloak:
+    container_name: keycloak_blog
+    image: "jboss/keycloak:15.0.2"
+    env_file:
+      - ./keycloak.dev.env
+    depends_on:
+      - "postgres"
+    ports:
+      - "8180:8080"
+    networks:
+      - backend
 
-#   keycloak_postgres: 
-#     image: postgres:15  
-#     environment:
-#       POSTGRES_DB: ${KEYCLOAK_DB_NAME}
-#       POSTGRES_USER: ${KEYCLOAK_DB_USER}
-#       POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
-#     volumes:
-#       - ~/keycloak_sso_vol:/var/lib/postgresql/data
-# volumes: 
-#   keycloak_sso_vol:
+networks:
+  backend:
+    name: backend
+    driver: bridge
