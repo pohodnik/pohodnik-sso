@@ -16,8 +16,7 @@ services:
     ports:      
       - "8580:8080"      
     depends_on:      
-      keycloak_postgres:
-        condition: service_healthy
+      - keycloak_postgres
     networks:
       network_sso:
         ipv4_address: "10.0.0.2"    
