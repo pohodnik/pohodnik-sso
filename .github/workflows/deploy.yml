@@ -23,6 +23,7 @@ jobs:
             echo KEYCLOAK_DB_PASSWORD="${{ secrets.KEYCLOAK_SECRET }}" >> .env
             echo KEYCLOAK_ADMIN_USERNAME="${{ secrets.KEYCLOAK_USER }}" >> .env
             echo KEYCLOAK_ADMIN_PASSWORD="${{ secrets.KEYCLOAK_PASSWORD }}" >> .env
+            cat .env
             docker-compose up -d
       - name: Send telegramm notofication
         run: curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage -d chat_id=${{ secrets.TELEGRAM_TO }} -d parse_mode=html -d text="$MESSAGE" >> /dev/null
