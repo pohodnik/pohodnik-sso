@@ -1,11 +1,6 @@
-networks:
-  keycloak-network:
-    external: true
 
 volumes:
   keycloak-postgres:
-  keycloak-postgres-backup:
-  keycloak-database-backups:
 
 services:
   postgres:
