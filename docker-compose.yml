@@ -1,7 +1,3 @@
-
-volumes:
-  keycloak-postgres:
-
 services:
   postgres:
     image: ${KEYCLOAK_POSTGRES_IMAGE_TAG}
