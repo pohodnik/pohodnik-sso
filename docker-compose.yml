@@ -39,7 +39,7 @@ services:
 
     restart: unless-stopped
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+      - "${POSTGRES_PORT}:5434"
     networks:
       - network_sso
     volumes:
