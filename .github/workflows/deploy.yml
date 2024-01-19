@@ -1,4 +1,4 @@
-name: Deploy backend pohodnik.tk
+name: Deploy pohodnik-sso
 on:
   push:
     branches: [ main ]
@@ -16,17 +16,13 @@ jobs:
           script: |
             cd ~/
             rm -rf pohodnik-sso
-            docker image rm -f pohodnik-sso_keycloak_db_sso
-            docker image rm -f pohodnik-sso_keycloak
             git clone git@github.com:pohodnik/pohodnik-sso.git
             sudo chmod -R 755 pohodnik-sso
             cd pohodnik-sso
             docker-compose down --rmi all --remove-orphans
-            echo POSTGRES_PASSWORD="${{ secrets.KEYCLOAK_SECRET }}" >> .env
-            echo POSTGRES_ROOT_PASSWORD="${{ secrets.KEYCLOAK_SECRET }}" >> .env
-            echo DB_PASSWORD="${{ secrets.KEYCLOAK_SECRET }}" >> .env
-            echo KEYCLOAK_USER="${{ secrets.KEYCLOAK_USER }}" >> .env
-            echo KEYCLOAK_PASSWORD="${{ secrets.KEYCLOAK_PASSWORD }}" >> .env
+            echo KEYCLOAK_DB_PASSWORD="${{ secrets.KEYCLOAK_SECRET }}" >> .env
+            echo KEYCLOAK_ADMIN_USERNAME="${{ secrets.KEYCLOAK_USER }}" >> .env
+            echo KEYCLOAK_ADMIN_PASSWORD="${{ secrets.KEYCLOAK_PASSWORD }}" >> .env
             docker-compose up -d
       - name: Send telegramm notofication
         run: curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage -d chat_id=${{ secrets.TELEGRAM_TO }} -d parse_mode=html -d text="$MESSAGE" >> /dev/null
