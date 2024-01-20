@@ -21,7 +21,7 @@ services:
       - keycloak-and-mysql-network
 
   keycloak-w:
-    image: jboss/keycloak:16.1.0
+    image: jboss/keycloak:latest
     ports:
       - 8181:8080
     restart: unless-stopped
